@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+exec icinga2 daemon 2>&1

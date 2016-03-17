@@ -1,0 +1,24 @@
+# Template file for 'icinga2'
+pkgname="icinga2"
+version="2.4.4"
+revision=1
+short_desc="Icinga is a scalable and extensible monitoring system"
+build_style=cmake
+configure_args="-DCMAKE_INSTALL_SYSCONFDIR=/etc -DICINGA2_RUNDIR=/run -DCMAKE_INSTALL_LOCALSTATEDIR=/var"
+makedepends="libressl-devel boost-devel flex bison git yajl-devel libmysqlclient-devel libedit-devel postgresql-libs-devel"
+maintainer="Corné Oppelaar <hello@eaterofco.de>"
+license="GPL-2"
+homepage="https://www.icinga.org/"
+distfiles="https://github.com/Icinga/icinga2/archive/v$version.tar.gz"
+checksum="ce19ed52c447929f5f9dae11b75d080b76b7aa680ee930c59db4202a2218d6b5"
+
+system_groups="icingacmd icinga"
+system_accounts="icinga"
+icinga_pgroup="icingacmd"
+icinga_groups="icinga"
+
+post_install() {
+    vsv icinga2
+    # remove useless files
+    rm -rf ${DESTDIR}/etc/sysconfig
+}
