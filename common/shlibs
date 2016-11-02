@@ -2656,3 +2656,7 @@ libpcre2-8.so.0 libpcre2-10.22_1
 libpcre2-posix.so.1 libpcre2-10.22_1
 libgnome-autoar-0.so.0 gnome-autoar-0.1.1_1
 libgnome-autoar-gtk-0.so.0 gnome-autoar-0.1.1_1
+libkj-0.5.3.so libkj-0.5.3_1
+libkj-async-0.5.3.so libkj-0.5.3_1
+libcapnpc-0.5.3.so libcapnproto-0.5.3_1
+libcapnp-0.5.3.so libcapnproto-0.5.3_1

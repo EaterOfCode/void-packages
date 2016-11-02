@@ -1,0 +1,48 @@
+# Template file for 'capnproto'
+pkgname=capnproto
+version=0.5.3
+revision=1
+wrksrc="${pkgname}-c++-${version}"
+build_style=gnu-configure
+depends="libcapnproto"
+short_desc="Cap'n Proto serialization/RPC system"
+maintainer="eater <hello@eaterofco.de>"
+license="MIT"
+homepage="https://capnproto.org"
+distfiles="${homepage}/capnproto-c++-${version}.tar.gz"
+checksum="cdb17c792493bdcd4a24bcd196eb09f70ee64c83a3eccb0bc6534ff560536afb"
+nocross=yes
+
+post_install() {
+	 vlicense "LICENSE.txt"
+}
+
+libcapnproto_package() {
+	short_desc+=" - shared libraries"
+	depends="libkj"
+	pkg_install() {
+		vmove /usr/lib/libcapnp*
+	}
+}
+
+libcapnproto-devel_package() {
+	short_desc+=" - development files"
+	pkg_install() {
+		vmove usr/include/capnp
+		vmove usr/lib/pkgconfig
+	}
+}
+
+libkj_package() {
+	short_desc+=" - utility shared libraries"
+	pkg_install() {
+		vmove usr/lib/libkj*
+	}
+}
+
+libkj-devel_package() {
+	short_desc+=" - utility development files"
+	pkg_install() {
+		vmove usr/include/kj
+	}
+}
