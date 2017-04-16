@@ -1,12 +1,12 @@
 # Template build file for 'MoarVM'.
 pkgname=MoarVM
-version=2016.07
+version=2017.03
 revision=1
 build_style=configure
 configure_script="perl Configure.pl"
-configure_args="--prefix=/usr --has-libuv --has-libatomic_ops --has-libffi"
+configure_args="--prefix=/usr --has-libuv --has-libatomic_ops"
 hostmakedepends="perl"
-makedepends="libuv-devel libatomic_ops-devel libffi-devel"
+makedepends="libuv-devel libatomic_ops-devel"
 short_desc="MoarVM is a virtual machine for Rakudo Perl 6"
 maintainer="Ruslan <axetwe@gmail.com>"
 homepage="http://moarvm.com"
@@ -14,8 +14,13 @@ license="Artistic-2.0"
 distfiles="http://moarvm.org/releases/MoarVM-${version}.tar.gz"
 nocross="yes"
 shlib_provides="libmoar.so"
-checksum=6b78e25a5399744d3e6dc98e896849234dab1760cd618c07cf94a50caac06a6f
+checksum=c562a91d462a15f3a964969ddea8b33eae4558e3b25d9e2105f81c259249dbee
 
-do_clean() {
-	rm -rf ${DESTDIR}/usr/include/libuv ${DESTDIR}/usr/include/libtommath
+MoarVM-devel_package() {
+	depends="${sourcepkg}"
+	short_desc+=" - development files"
+	pkg_install() {
+	    vmove usr/include
+	    vmove usr/share/pkgconfig
+	}
 }
