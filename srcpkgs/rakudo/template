@@ -1,17 +1,17 @@
 # Template build file for 'rakudo'.
 pkgname=rakudo
-version=2016.07.1
+version=2017.03
 revision=1
 build_style=configure
 configure_script="perl Configure.pl"
 configure_args="--prefix=/usr --backends=moar"
 hostmakedepends="perl"
-makedepends="nqp libatomic_ops-devel libffi-devel libuv-devel"
-depends="nqp>=2016.07"
+makedepends="nqp libatomic_ops-devel libffi-devel libuv-devel MoarVM-devel"
+depends="nqp>=${version}"
 short_desc="Rakudo is an implementation of Perl 6 language"
 maintainer="Ruslan <axetwe@gmail.com>"
 homepage="http://rakudo.org"
 license="Artistic-2.0"
 distfiles="https://github.com/rakudo/rakudo/archive/${version}.tar.gz"
 nocross=yes
-checksum=2c963ede62b7f759d46fa057ed31934849fe50d00670ff6f849493b537ffd6b0
+checksum=ede0d815caebc5f871bab56c273151b89bc9a5521e3ac1480205b53423db3a22
