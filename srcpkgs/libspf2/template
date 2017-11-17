@@ -1,0 +1,27 @@
+# Template file for 'libspf2'
+pkgname=libspf2
+version=1.2.10
+revision=1
+build_style=gnu-configure
+short_desc="SPF Library"
+maintainer="eater <hello@eaterofco.de>"
+license="LGPL-2"
+homepage="https://www.libspf2.org"
+distfiles="https://www.libspf2.org/spf/libspf2-${version}.tar.gz"
+hostmakedepends="autoconf"
+checksum=d91e3de81ae287a2976c44f60283bd3000d720e6a112dc7142eedf1831b821c9
+
+pre_build() {
+	export ac_cv_func_setpgrp_void=yes;
+	export ac_cv_func_malloc_0_nonnull=yes;
+	export ac_cv_func_realloc_0_nonnull=yes;
+}
+
+libspf2-devel_package() {
+	short_desc+=" - development files"
+	depends="${pkgname}>=${version}_${revision}"
+
+	pkg_install() {
+		vmove usr/include
+	}
+}

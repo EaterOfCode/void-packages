@@ -2742,6 +2742,7 @@ libomxaudio_effects.so.0 libomxil-bellagio-0.9.3_1
 libomxclocksrc.so.0 libomxil-bellagio-0.9.3_1
 libomxvideosched.so.0 libomxil-bellagio-0.9.3_1
 libnss_libvirt_guest.so.2 libvirt-3.1.0_1
+libspf2.so.2 libspf2-1.2.10_1
 libvirt-admin.so.0 libvirt-3.1.0_1
 libnss_libvirt.so.2 libvirt-3.1.0_1
 libassimp.so.4 libassimp-4.0.0_1
@@ -2869,7 +2870,7 @@ libtracker-control-2.0.so.0 libtracker-2.0.0_1
 libtracker-sparql-2.0.so.0 libtracker-2.0.0_1
 libdockapp.so.3 libdockapp-0.7.2_1
 libkrdccore.so.5 krdc-17.04.3_1
-libkrfbprivate.so.5.0 krfb-17.08.1_1 
+libkrfbprivate.so.5.0 krfb-17.08.1_1
 libArcus.so.3 libArcus-3.0.3_1
 libgutenprint.so.2 gutenprint-5.2.12_1
 libunbound.so.2 unbound-1.6.6_1
