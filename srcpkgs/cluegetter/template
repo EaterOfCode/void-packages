@@ -1,0 +1,44 @@
+# Template file for 'cluegetter'
+pkgname=cluegetter
+version=0.7.0rc
+revision=1
+wrksrc="ClueGetter-fix-cross-compiling"
+build_style=go
+only_for_archs="armv7hf armv6l x86_64 i686 armv6hf"
+hostmakedepends="git"
+makedepends="pcre-devel libmilter-devel libspf2 libspf2-devel"
+depends="libspf2 libmilter pcre"
+short_desc="Access and Auditing Milter for Postfix"
+maintainer="eater <hello@eaterofco.de>"
+license="Apache 2.0"
+homepage="https://github.com/Freeaqingme/ClueGetter"
+distfiles="https://github.com/the-eater/ClueGetter/archive/fix/cross-compiling.tar.gz"
+checksum=1570c5eb8fc7f46678ff096dd86d3dd8effae7322ed68f3609b6890305ef9193
+
+system_accounts="cluegetter"
+
+do_build() {
+	make release LDFLAGS='-X "main.buildTag=v'"${version}"'" -X "main.buildTime='"$(date -u '+%Y-%m-%d %H:%M:%S UTC')"'"';
+}
+
+do_install() {
+	local platform_specific="bin/${GOOS:-linux}_${GOARCH}/cluegetter";
+	echo "${platform_specific}";
+	if [ -f "${platform_specific}" ]; then
+		vbin "${platform_specific}";
+	else
+		vbin "bin/cluegetter";
+	fi
+
+	vlicense LICENSE
+	vdoc mysql.sql
+	vdoc DDL-Changes.sql
+	vsv cluegetter
+
+	vmkdir /etc/cluegetter
+	vcopy cluegetter.conf.dist /etc/cluegetter/cluegetter.conf
+
+	vmkdir /etc/logrotate.d
+	sed 's:root:cluegetter:g' -i dist/debian/logrotate
+	vcopy dist/debian/logrotate /etc/logrotate.d/cluegetter
+}

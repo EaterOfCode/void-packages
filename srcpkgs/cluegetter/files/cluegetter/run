@@ -1,0 +1,3 @@
+#!/bin/bash
+install -d -o cluegetter -g cluegetter /var/run/cluegetter;
+exec chpst -u cluegetter:cluegetter cluegetter daemon --foreground;
