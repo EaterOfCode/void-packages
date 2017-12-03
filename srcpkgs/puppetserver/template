@@ -1,0 +1,59 @@
+# Template file for 'puppetserver'
+pkgname=puppetserver
+version=5.1.4
+revision=1
+noarch=yes
+hostmakedepends="openjdk ruby"
+makedepends=""
+depends="virtual?java-runtime facter net-tools"
+short_desc="Server automation framework and application"
+maintainer="eater <hello@eaterofco.de>"
+license="Apache-2.0"
+homepage="https://docs.puppetlabs.com/puppetserver/latest/services_master_puppetserver.html"
+distfiles="http://downloads.puppetlabs.com/puppet/${pkgname}-${version}.tar.gz"
+checksum=f094ead85531d0e131723fe04a51815413e717c13cf4b1bfa757002a785aec98
+make_dirs="/var/log/puppetlabs 0755 puppet puppet \
+	/etc/puppetlabs 0755 puppet puppet"
+
+system_accounts="puppet"
+
+do_install () {
+	sed -i 's:sysconfig:default:' ext/redhat/puppetserver.service
+	sed -i "s:\[/opt/puppetlabs/puppet/lib/ruby/vendor_ruby\]:\[$( ruby -e \
+	    'puts RbConfig::CONFIG["vendorlibdir"]' ),$( ruby -e \
+	    'puts RbConfig::CONFIG["vendordir"]' )\]:" "ext/config/conf.d/${pkgname}.conf"
+
+	# // instead of / trips up jruby.conf
+	export DESTDIR="$(sed 's/\/\+/\//g' <<< $DESTDIR)"
+
+	_prefix=${_prefix:=/usr}
+	_unitdir=${_unitdir:=/usr/lib/systemd/system}
+	_real_name=${_real_name:=puppetserver}
+	_confdir=${_confdir:=/etc}
+	_sysconfdir=/etc
+	_app_bindir=${_bindir:=/opt/puppetlabs/server/apps/${_real_name}/bin}
+	_sym_bindir=${_symbindir:=/opt/puppetlabs/server/bin}
+	_app_prefix=${_app_prefix:=/opt/puppetlabs/server/apps/${_real_name}}
+	_app_data=${_app_data:=/opt/puppetlabs/server/data/${_real_name}}
+	_app_logdir=${_app_logdir:=/var/log/puppetlabs/${_real_name}}
+
+	env EZ_VERBOSE=1 DESTDIR="${DESTDIR}" prefix=${_prefix} \
+	    app_prefix=${_app_prefix} app_data=${_app_data} \
+	    confdir=${_sysconfdir} bindir=${_app_bindir} symbindir=${_sym_bindir} \
+	    rundir=${_app_rundir} rubylibdir=${rubylibdir} \
+	    bash install.sh install_redhat
+
+	env EZ_VERBOSE=1 DESTDIR="${pkgdir}" prefix=${_prefix} \
+	    app_prefix=${_app_prefix} app_data=${_app_data} \
+	    confdir=${_sysconfdir} bindir=${_app_bindir} \
+	    symbindir=${_sym_bindir} rundir=${_app_rundir} \
+	    defaultsdir=${_sysconfdir}/default unitdir=${_unitdir} \
+	    bash install.sh systemd_redhat
+
+	env EZ_VERBOSE=1 DESTDIR="${DESTDIR}" confdir=${_sysconfdir} \
+	    bash install.sh logrotate
+
+	vmkdir /etc/default
+	vcopy ext/default /etc/default/puppetserver
+	vsv puppetserver
+}

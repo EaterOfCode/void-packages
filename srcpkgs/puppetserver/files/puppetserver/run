@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+. /etc/default/puppetserver
+install -d -o puppet -g puppet /var/run/puppetserver;
+exec /opt/puppetlabs/bin/puppetserver foreground
