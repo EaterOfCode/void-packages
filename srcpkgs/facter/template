@@ -1,10 +1,10 @@
 # Template file for 'facter'
 pkgname=facter
 version=3.9.3
-revision=1
+revision=2
 build_style=cmake
 configure_args="-DRUBY_CONFIG_INCLUDE_DIR=${XBPS_CROSS_BASE}/usr/include"
-hostmakedepends="ruby-devel"
+hostmakedepends="ruby-devel openjdk"
 makedepends="libressl-devel libcurl-devel libblkid-devel ruby-devel yaml-cpp-devel
  boost-devel leatherman cpp-hocon"
 depends="ruby net-tools"
@@ -18,6 +18,8 @@ checksum=a91a38b6ff1ea912e824bce7fff125452a7b4632c503d0c888fc2ce24551ebb8
 pre_configure() {
 	# Subdirectory does not exist (in distfile).
 	sed -i CMakeLists.txt -e "/^add_subdirectory(locales)/d"
+
+	export JAVA_HOME="/usr/lib/jvm/openjdk";
 }
 
 post_install() {
